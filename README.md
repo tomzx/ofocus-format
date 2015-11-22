@@ -1,6 +1,10 @@
 # Omnifocus `.ofocus` file format
 
-This document is written by reverse engineering an Omnifocus 1.10 `.ofocus` file. I have not yet looked into the format of the v2, so if you do, please share!
+This document was initially written by reverse engineering an Omnifocus 1.10 `.ofocus` file. I then took a look at the Omnifocus 2.x format and tracked the differences. The newer format is mostly an incremental update to the v1 format, such that if you have built anything for the v1 format, upgrading to the v2 format should not be too difficult.
+
+## Changes from v1
+
+* The addition of `.client` files within the archive, which appears to be an history of sync of clients (still TBD).
 
 ## Overview
 
@@ -12,7 +16,7 @@ There is a master file named `00000000000000={uuid}+{randomId}.zip` and multiple
 To build the history, one will start with the master file and read the chain of transactions files, something that will look like the following:
 
 ```
-00000000000000={uuid}+A.zip (master file)
+00000000000000={uuid}+{A}.zip (master file)
 {date in GMT}={A}+{B}.zip (transaction file 1)
 {date in GMT}={B}+{C}.zip (transaction file 2)
 {date in GMT}={C}+{D}.zip  (transaction file 3)
@@ -28,6 +32,7 @@ The content of each `contents.xml` is as follow:
 
 Legend
 *Optional*
+** New in v2**
 
 * omnifocus
 	* setting(id : id)
@@ -76,6 +81,7 @@ Legend
 		* *repetition-method : string (fixed)*
 	* perspective(id : string/id) - either a predefined string (ProcessInbox, ProcessProjects, ProcessContexts, ProcessDueSoon, ProcessFlagged, ProcessReview, ProcessCompleted) or an id (see below)
 		* plist(version : string) : string/xml
+		* **completed-by-children : bool**
 
 ### Transaction xml files
 
@@ -84,7 +90,7 @@ Legend
 
 A `op="reference"` is basically a copy of the referenced data within the transaction (in case something were to happen to the original reference).
 
-Any id referred to in the transaction file will be included as part of the transaction with an `op="reference"` attribute.
+Any `id referred to in the transaction file will be included as part of the transaction with an `op="reference"` attribute.
 
 ### Formats
 
