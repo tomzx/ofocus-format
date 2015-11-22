@@ -7,7 +7,7 @@ This document is written by reverse engineering an Omnifocus 1.10 `.ofocus` file
 The `.ofocus` file is basically a directory with a set of `.zip` files.
 Each `.zip` file contains a `contents.xml` file, which is a transaction (a set of data) in `XML` format.
 
-There is a master file named `00000000000000={uuid}+{randomId}.zip` and multiple files named `{date in GMT}={randomID}+{randomID}.zip` which are transactions files that apply over the master file. The `randomId` values have the same format as the random ids used within the file (see `id` in the [Format](#format) section). 
+There is a master file named `00000000000000={uuid}+{randomId}.zip` and multiple files named `{date in GMT}={randomID}+{randomID}.zip` which are transactions files that apply over the master file. The `randomId` values have the same format as the random ids used within the file (see `id` in the [Formats](#formats) section). 
 
 To build the history, one will start with the master file and read the chain of transactions files, something that will look like the following:
 
