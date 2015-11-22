@@ -4,10 +4,10 @@ This document is written by reverse engineering an Omnifocus 1.10 `.ofocus` file
 
 ## Overview
 
-The `.ofocus` file is a basically a directory with a set of `.zip` files.
-Each `zip` file contains a `contents.xml` file, which is a transaction in `XML` format.
+The `.ofocus` file is basically a directory with a set of `.zip` files.
+Each `.zip` file contains a `contents.xml` file, which is a transaction (a set of data) in `XML` format.
 
-There is a master file named `00000000000000={uuid}+{randomId}.zip` and multiple files named `{date in GMT}={randomID}+{randomID}.zip` which are transactions files that apply over the master file.
+There is a master file named `00000000000000={uuid}+{randomId}.zip` and multiple files named `{date in GMT}={randomID}+{randomID}.zip` which are transactions files that apply over the master file. The `randomId` values have the same format as the random ids used within the file (see `id` in the [Format](#format) section). 
 
 To build the history, one will start with the master file and read the chain of transactions files, something that will look like the following:
 
@@ -48,16 +48,16 @@ Legend
 		* name : string
 		* rank : signed int
 		* *hidden : bool*
-	* task(id : id) - has either a project or task child which represents this task parent
-		* *inbox* - indicate if this task is part of the inbox
-		* *project*
+	* task(id : id) - has either a project or task child. A project child declares the project's properties while a task child declares the parent of the current task
+		* *project* - declares a project/single-action list
 			* folder(idref : id) - reference to parent folder
 			* last-review : datetime
 			* *next-review : datetime*
 			* review-interval : string (interval format)
-			* *status : string (done, inactive, dropped)*
-			* *singleton : bool (if not specified, false by default)*
+			* *status : string (active, inactive, done, dropped) (if not specified, active by default)*
+			* *singleton : bool (if not specified, false by default)* - indicate if the project is composed of single actions
 		* *task(idref : id)* - reference to parent task
+		* *inbox* - indicate if this task is part of the inbox
 		* *note*
 			* *text* (formatted as HTML)
 		* added(order : unsigned int) : datetime
@@ -74,7 +74,7 @@ Legend
 		* *repeat : string (interval format)*
 		* *repetition-rule : string (FREQ=MONTHLY, FREQ=WEEKLY;INTERVAL=4)*
 		* *repetition-method : string (fixed)*
-	* perspective(id)
+	* perspective(id : string/id) - either a predefined string (ProcessInbox, ProcessProjects, ProcessContexts, ProcessDueSoon, ProcessFlagged, ProcessReview, ProcessCompleted) or an id (see below)
 		* plist(version : string) : string/xml
 
 ### Transaction xml files
@@ -86,7 +86,7 @@ A `op="reference"` is basically a copy of the referenced data within the transac
 
 Any id referred to in the transaction file will be included as part of the transaction with an `op="reference"` attribute.
 
-### Comments
+### Formats
 
 The `id` used as attribute is 11 characters long, in what appears to be base 64 (`A-Za-z0-9\_\-`).
 
@@ -97,4 +97,7 @@ The `datetime` is formatted according to [ISO 8601](https://en.wikipedia.org/wik
 The `rank` appears to be a global value shared by all data types.
 
 ## Reference
-[omnifocus-viewer Omnifocus File Format](https://code.google.com/p/omnifocus-viewer/wiki/WikiPageMain)
+
+* [omnifocus-viewer Omnifocus File Format](https://code.google.com/p/omnifocus-viewer/wiki/WikiPageMain)
+* Omnifocus forum, Omnifocus Data Storage thread [part 1](http://forums.omnigroup.com/showpost.php?p=13772), [part 2](http://forums.omnigroup.com/showpost.php?p=13786)
+* Omnifocus blog, [OmniFocus: What We've Learned So Far (Engineering)](https://www.omnigroup.com/blog/OmniFocus_What_Weve_Learned_So_Far_Engineering)
