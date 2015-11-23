@@ -1,6 +1,8 @@
 # Omnifocus `.ofocus` file format
 
-This document is written by reverse engineering an Omnifocus 1.10 `.ofocus` file. I have not yet looked into the format of the v2, so if you do, please share!
+**For v2 `.ofocus` file format, please check the [2.0 branch](https://github.com/tomzx/ofocus-format/tree/2.0).**
+
+This document is written by reverse engineering an Omnifocus 1.10 `.ofocus` file.
 
 ## Overview
 
