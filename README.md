@@ -2,10 +2,6 @@
 
 This document was initially written by reverse engineering an Omnifocus 1.10 `.ofocus` file. I then took a look at the Omnifocus 2.x format and tracked the differences. The newer format is mostly an incremental update to the v1 format, such that if you have built anything for the v1 format, upgrading to the v2 format should not be too difficult.
 
-## Changes from v1
-
-* The addition of `.client` files within the archive, which appears to be an history of sync of clients (still TBD).
-
 ## Overview
 
 The `.ofocus` file is basically a directory with a set of `.zip` files.
