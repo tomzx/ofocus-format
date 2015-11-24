@@ -14,12 +14,50 @@ There is a master file named `00000000000000={uuid}+{randomId}.zip` and multiple
 To build the history, one will start with the master file and read the chain of transactions files, something that will look like the following:
 
 ```
-00000000000000={uuid}+A.zip (master file)
+00000000000000={uuid}+{A}.zip (master file)
 {date in GMT}={A}+{B}.zip (transaction file 1)
 {date in GMT}={B}+{C}.zip (transaction file 2)
 {date in GMT}={C}+{D}.zip  (transaction file 3)
 ...
 {date in GMT}={Y}+{Z}.zip  (transaction file n)
+```
+
+## History merge
+
+Whenever you sync with the server, a file with the format `{date in GMT}={X}+{Y}+{Z}.zip`, where `X` is the  client `randomId` and `Y` is the server `randomId`, will be generated.
+
+**Last client transaction file**
+{date in GMT}={A}+{X}.zip
+
+**Last server transaction file**
+{date in GMT}={B}+{Y}.zip
+
+**Resulting transaction file**
+{date in GMT}={X}+{Y}+{Z}.zip
+
+Any transaction file generated next will henceforth be named `{date in GMT}={Z}+{C}.zip`, where `Z` is the `randomId` generated for the resulting transaction file.
+
+## History compression
+
+Omnifocus tracks clients by using files with the format `{date in GMT}={randomId}.client`. Such files contain a plist with a dictionary in it with various properties of the client device such as the number of cpu, the OS version, an identifier of the Omnifocus client version used as well as one very important piece of information: an array of `tailIdentifiers`. As one can deduce from the name, it tracks the last synced transaction file, indicated by the second `randomId` of the transaction file's name.
+
+Note that it is likely that you will see multiple client files for your device but with different date timestamp. When looking for the most up to date data, make sure to use the latest client file available.
+
+Whenever Omnifocus realizes that all known clients are synchronized up to a certain transaction file, it is free to compress the transaction history back into the master file.
+
+### Hypothetical scenario
+
+```
+00000000000000={uuid}+{A}.zip (master file)
+{date in GMT}={A}+{B}.zip (transaction file 1)
+{date in GMT}={B}+{C}.zip (transaction file 2)
+{date in GMT}={C}+{D}.zip  (transaction file 3)
+```
+
+... Compression ...
+
+```
+00000000000000={uuid}+{D}.zip (master file, with transaction files 1, 2, 3 merged in)
 ```
 
 ## File content
@@ -86,7 +124,7 @@ Legend
 
 A `op="reference"` is basically a copy of the referenced data within the transaction (in case something were to happen to the original reference).
 
-Any id referred to in the transaction file will be included as part of the transaction with an `op="reference"` attribute.
+Any `id` referred to in the transaction file will be included as part of the transaction with an `op="reference"` attribute.
 
 ### Formats
 
