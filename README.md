@@ -9,12 +9,12 @@ This document is written by reverse engineering an Omnifocus 1.10 `.ofocus` file
 The `.ofocus` file is basically a directory with a set of `.zip` files.
 Each `.zip` file contains a `contents.xml` file, which is a transaction (a set of data) in `XML` format.
 
-There is a master file named `00000000000000={uuid}+{randomId}.zip` and multiple files named `{date in GMT}={randomID}+{randomID}.zip` which are transactions files that apply over the master file. The `randomId` values have the same format as the random ids used within the file (see `id` in the [Formats](#formats) section). 
+There is a master file named `00000000000000={randomId}+{randomId}.zip` and multiple files named `{date in GMT}={randomID}+{randomID}.zip` which are transactions files that apply over the master file. The `randomId` values have the same format as the random ids used within the file (see `id` in the [Formats](#formats) section). 
 
 To build the history, one will start with the master file and read the chain of transactions files, something that will look like the following:
 
 ```
-00000000000000={uuid}+{A}.zip (master file)
+00000000000000={randomId}+{A}.zip (master file)
 {date in GMT}={A}+{B}.zip (transaction file 1)
 {date in GMT}={B}+{C}.zip (transaction file 2)
 {date in GMT}={C}+{D}.zip  (transaction file 3)
@@ -24,18 +24,21 @@ To build the history, one will start with the master file and read the chain of 
 
 ## History merge
 
-Whenever you sync with the server, a file with the format `{date in GMT}={X}+{Y}+{Z}.zip`, where `X` is the  client `randomId` and `Y` is the server `randomId`, will be generated.
+Whenever you sync with the server, a file with the format `{date in GMT}={X}+{Y}+{Z}.zip`, where `X` is the  `randomId` of the oldest transaction file and `Y` is the `randomId` of the youngest transaction file, will be generated. This file does not contain any transaction in itself and only serves to indicate the junction of two disjoint history branches.
 
-**Last client transaction file**
+**Oldest transaction file**
 {date in GMT}={A}+{X}.zip
 
-**Last server transaction file**
+**Youngest transaction file**
 {date in GMT}={B}+{Y}.zip
 
 **Resulting transaction file**
+Because `date in GMT of the oldest` < `date in GMT of the youngest`,
 {date in GMT}={X}+{Y}+{Z}.zip
 
 Any transaction file generated next will henceforth be named `{date in GMT}={Z}+{C}.zip`, where `Z` is the `randomId` generated for the resulting transaction file.
+
+My impression is that conflict resolution is simply handled by taking the latest change that occured to a task and consider it the source of truth. If both my iPhone and my Desktop have differences on a task status/name, the changes that will have been done last will be the one preserved, which makes sense in the context of time.
 
 ## History compression
 
@@ -48,7 +51,7 @@ Whenever Omnifocus realizes that all known clients are synchronized up to a cert
 ### Hypothetical scenario
 
 ```
-00000000000000={uuid}+{A}.zip (master file)
+00000000000000={randomId}+{A}.zip (master file)
 {date in GMT}={A}+{B}.zip (transaction file 1)
 {date in GMT}={B}+{C}.zip (transaction file 2)
 {date in GMT}={C}+{D}.zip  (transaction file 3)
@@ -57,7 +60,7 @@ Whenever Omnifocus realizes that all known clients are synchronized up to a cert
 ... Compression ...
 
 ```
-00000000000000={uuid}+{D}.zip (master file, with transaction files 1, 2, 3 merged in)
+00000000000000={randomId}+{D}.zip (master file, with transaction files 1, 2, 3 merged in)
 ```
 
 ## File content
