@@ -101,7 +101,7 @@ Legend
 		* *task(idref : id)* - reference to parent task
 		* *inbox* - indicate if this task is part of the inbox
 		* *note*
-			* *text* (formatted as HTML)
+			* *text* (formatted as XML, using custom tags)
 		* added(order : unsigned int) : datetime
 		* *modified : datetime*
 		* name : string
@@ -137,7 +137,7 @@ The `datetime` is formatted according to [ISO 8601](https://en.wikipedia.org/wik
 
 `Interval format` is @periodduration (@1d, @1w, @1m, @1y) 
 
-The `rank` appears to be a global value shared by all data types.
+The `rank` appears to be a global value shared by all data types. It is a big-endian number used to sort entries within their brances of the OmniFocus tree, from lowest rank to highest rank.
 
 ## Reference
 
