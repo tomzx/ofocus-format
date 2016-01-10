@@ -83,7 +83,7 @@ Legend
 		* name : string
 		* rank : signed int
 		* *context(idref : id)* - reference to parent context
-		* *location(name : string, latitude : string, longitude : string)*
+		* *location(name : string, latitude : string, longitude : string)* - latitute and longitude are signed decimal with a precision of 4
 	* folder(id : id)
 		* *folder(idref : id)* - reference to parent folder
 		* added : datetime
@@ -137,7 +137,7 @@ The `datetime` is formatted according to [ISO 8601](https://en.wikipedia.org/wik
 
 `Interval format` is @periodduration (@1d, @1w, @1m, @1y) 
 
-The `rank` appears to be a global value shared by all data types.
+The `rank` appears to be a global value shared by all data types. It is a signed integer (32 bits). There can be duplicate ranks. It would appear that ranks might only be unique within the same level of the hierarchy in order to provide ordering.
 
 ## Reference
 
