@@ -137,7 +137,7 @@ The `datetime` is formatted according to [ISO 8601](https://en.wikipedia.org/wik
 
 `Interval format` is @periodduration (@1d, @1w, @1m, @1y) 
 
-The `rank` appears to be a global value shared by all data types. It is a big-endian number used to sort entries within their brances of the OmniFocus tree, from lowest rank to highest rank.
+The `rank` appears to be a global value shared by all data types. It is a [little-endian](https://en.wikipedia.org/wiki/Endianness) number used to sort entries within their branches of the OmniFocus tree, from lowest rank to highest rank. For example, a rank like `1409286144` is the binary number `1010100000000000000000000000000`, which when interpreted as a little-endian number is `84` (base 10). Whether OmniFocus interprets the format this way is arguable, as ranks can still be sorted in their original form.
 
 ## Reference
 
