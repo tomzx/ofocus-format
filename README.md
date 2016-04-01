@@ -68,6 +68,7 @@ Whenever Omnifocus realizes that all known clients are synchronized up to a cert
 The content of each `contents.xml` is as follow:
 
 Legend
+(...) Attributes
 *Optional*
 ** New in v2**
 
@@ -89,7 +90,7 @@ Legend
 		* *modified : datetime*
 		* name : string
 		* rank : signed int
-		* *hidden : bool*
+		* *hidden : bool* (not hidden by default)
 	* task(id : id) - has either a project or task child. A project child declares the project's properties while a task child declares the parent of the current task
 		* *project* - declares a project/single-action list
 			* folder(idref : id) - reference to parent folder
@@ -105,7 +106,7 @@ Legend
 		* added(order : unsigned int) : datetime
 		* *modified : datetime*
 		* name : string
-		* rank : unsigned int (relative to parent task?)
+		* rank : signed int (relative to parent task?)
 		* *context(idref : id)* - reference to context
 		* *due : datetime*
 		* *start : datetime*
