@@ -36,6 +36,7 @@ An example of such transaction files:
 		<completed-by-children>false</completed-by-children>
 	</task>
 </omnifocus>
+```
 
 ## History merge
 
@@ -60,6 +61,7 @@ An example of such transaction file:
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <omnifocus app-id="com.omnigroup.OmniFocus2" app-version="106.4.0.257959" machine-model="iMac17,1" os-name="Mac OS X" os-version="10.11.6"
 	xmlns="http://www.omnigroup.com/namespace/OmniFocus/v1"/>
+```
 
 ## History compression
 
