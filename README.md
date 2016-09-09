@@ -22,6 +22,21 @@ To build the history, one will start with the master file and read the chain of 
 {date in GMT}={Y}+{Z}.zip  (transaction file n)
 ```
 
+An example of such transaction files:
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<omnifocus app-id="com.omnigroup.OmniFocus2" app-version="106.4.0.257959" machine-model="iMac17,1" os-name="Mac OS X" os-version="10.11.6" xmlns="http://www.omnigroup.com/namespace/OmniFocus/v1">
+	<task id="fokmSbUrKL0" op="update">
+		<inbox/>
+		<added>2016-09-09T18:00:34.266Z</added>
+		<modified>2016-09-09T18:00:39.360Z</modified>
+		<name>Example to do</name>
+		<rank>0</rank>
+		<order>parallel</order>
+		<completed-by-children>false</completed-by-children>
+	</task>
+</omnifocus>
+
 ## History merge
 
 Whenever you sync with the server, a file with the format `{date in GMT}={X}+{Y}+{Z}.zip`, where `X` is the  `randomId` of the oldest transaction file and `Y` is the `randomId` of the youngest transaction file, will be generated. This file does not contain any transaction in itself and only serves to indicate the junction of two disjoint history branches.
@@ -39,6 +54,12 @@ Because `date in GMT of the oldest` < `date in GMT of the youngest`,
 Any transaction file generated next will henceforth be named `{date in GMT}={Z}+{C}.zip`, where `Z` is the `randomId` generated for the resulting transaction file.
 
 My impression is that conflict resolution is simply handled by taking the latest change that occured to a task and consider it the source of truth. If both my iPhone and my Desktop have differences on a task status/name, the changes that will have been done last will be the one preserved, which makes sense in the context of time.
+
+An example of such transaction file: 
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<omnifocus app-id="com.omnigroup.OmniFocus2" app-version="106.4.0.257959" machine-model="iMac17,1" os-name="Mac OS X" os-version="10.11.6"
+	xmlns="http://www.omnigroup.com/namespace/OmniFocus/v1"/>
 
 ## History compression
 
