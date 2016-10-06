@@ -32,7 +32,6 @@ Whenever you sync with the server, a file with the format `{date in GMT}={X}+{Y}
 
 **Resulting transaction file**
 Resulting transaction file Based on alphabetical order, say if `X < Y`, then: {date in GMT}={X}+{Y}+{Z}.zip 
-Hence, in all P+Q+R.zip type filenames, alphabetically `P < Q`
 
 Any transaction file generated next will henceforth be named {date in GMT}={Z}+{C}.zip, where Z is the randomId generated for the resulting transaction file.
 
