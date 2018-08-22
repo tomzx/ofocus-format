@@ -17,9 +17,9 @@ To build the history, one will start with the master file and read the chain of 
 00000000000000={randomId}+{A}.zip (master file)
 {date in GMT}={A}+{B}.zip (transaction file 1)
 {date in GMT}={B}+{C}.zip (transaction file 2)
-{date in GMT}={C}+{D}.zip  (transaction file 3)
+{date in GMT}={C}+{D}.zip (transaction file 3)
 ...
-{date in GMT}={Y}+{Z}.zip  (transaction file n)
+{date in GMT}={Y}+{Z}.zip (transaction file n)
 ```
 
 ## History merge
@@ -54,7 +54,7 @@ Whenever Omnifocus realizes that all known clients are synchronized up to a cert
 00000000000000={randomId}+{A}.zip (master file)
 {date in GMT}={A}+{B}.zip (transaction file 1)
 {date in GMT}={B}+{C}.zip (transaction file 2)
-{date in GMT}={C}+{D}.zip  (transaction file 3)
+{date in GMT}={C}+{D}.zip (transaction file 3)
 ```
 
 ... Compression ...
